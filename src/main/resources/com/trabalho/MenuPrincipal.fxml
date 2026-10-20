@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<BorderPane prefHeight="600.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.trabalho.controller.MenuPrincipalController">
+
+    <!-- Cabeçalho (Topo) -->
+    <top>
+        <HBox alignment="CENTER_LEFT" style="-fx-background-color: #2c3e50;" BorderPane.alignment="CENTER">
+            <padding>
+                <Insets bottom="15.0" left="20.0" right="20.0" top="15.0" />
+            </padding>
+            <Label text="SIGPesq - Sistema de Gestão" textFill="WHITE" HBox.hgrow="ALWAYS">
+                <font>
+                    <Font name="System Bold" size="18.0" />
+                </font>
+            </Label>
+            <!-- O HBox vazio empurra os próximos itens para a direita -->
+            <HBox HBox.hgrow="ALWAYS" />
+            <HBox alignment="CENTER_RIGHT" spacing="15.0">
+                <Label fx:id="lblUsuarioInfo" text="Coordenador: Utilizador" textFill="WHITE" />
+                <Button mnemonicParsing="false" onAction="#fazerLogout" style="-fx-background-color: #e74c3c; -fx-text-fill: white;" text="Sair" />
+            </HBox>
+        </HBox>
+    </top>
+
+    <!-- Menu Lateral (Esquerda) -->
+    <left>
+        <VBox prefWidth="270.0" spacing="10.0" style="-fx-background-color: #ecf0f1;" BorderPane.alignment="CENTER">
+            <padding>
+                <Insets bottom="20.0" left="15.0" right="15.0" top="20.0" />
+            </padding>
+            <Label text="Cadastros" textFill="#7f8c8d">
+                <font>
+                    <Font name="System Bold" size="14.0" />
+                </font>
+                <VBox.margin>
+                    <Insets bottom="5.0" />
+                </VBox.margin>
+            </Label>
+            
+            <Button fx:id="btnProjetos" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#abrirTelaProjetos" text="Cadastrar projetos de pesquisa" />
+            <Button fx:id="btnParticipantes" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#abrirTelaParticipantes" text="Cadastrar participantes" />
+            <Button fx:id="btnFinanciamentos" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#abrirTelaFinanciamentos" text="Cadastrar financiamentos" />
+            <Button fx:id="btnProducoes" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#abrirTelaProducoes" text="Cadastrar produções científicas" />
+            
+            <Label text="Relatórios" textFill="#7f8c8d">
+                <font>
+                    <Font name="System Bold" size="14.0" />
+                </font>
+                <VBox.margin>
+                    <Insets bottom="5.0" top="15.0" />
+                </VBox.margin>
+            </Label>
+            <Button fx:id="btnConsultas" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#abrirTelaConsultas" text="Consultas e Listagens" />
+        </VBox>
+    </left>
+
+    <!-- Área Central Dinâmica (Centro) -->
+    <center>
+        <StackPane fx:id="painelCentral" style="-fx-background-color: #ffffff;" BorderPane.alignment="CENTER">
+            <Label text="Selecione uma opção no menu lateral" textFill="#bdc3c7">
+                <font>
+                    <Font size="18.0" />
+                </font>
+            </Label>
+        </StackPane>
+    </center>
+</BorderPane>

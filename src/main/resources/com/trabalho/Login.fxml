@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<VBox alignment="CENTER" spacing="15.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.trabalho.controller.LoginController">
+    <padding>
+        <Insets bottom="40.0" left="40.0" right="40.0" top="40.0" />
+    </padding>
+
+    <!-- Título do Sistema -->
+    <Label text="SIGPesq">
+        <font>
+            <Font name="System Bold" size="28.0" />
+        </font>
+    </Label>
+    <Label text="Autenticação de Usuário" textFill="#555555">
+        <font>
+            <Font size="14.0" />
+        </font>
+        <VBox.margin>
+            <Insets bottom="10.0" />
+        </VBox.margin>
+    </Label>
+
+    <!-- Campo de E-mail Institucional -->
+    <VBox maxWidth="250.0" spacing="5.0">
+        <Label text="E-mail Institucional:" />
+        <TextField fx:id="txtEmail" promptText="exemplo@ufes.br" />
+    </VBox>
+
+    <!-- Campo de Senha -->
+    <VBox maxWidth="250.0" spacing="5.0">
+        <Label text="Senha:" />
+        <PasswordField fx:id="txtSenha" promptText="Sua senha de acesso" />
+    </VBox>
+
+    <!-- Label reservada para exibir mensagens de erro -->
+    <Label fx:id="lblMensagemErro" maxWidth="250.0" textFill="RED" wrapText="true" />
+
+    <!-- Botão de Entrar -->
+    <Button mnemonicParsing="false" onAction="#fazerLogin" prefWidth="250.0" style="-fx-font-weight: bold; -fx-padding: 10px;" text="Entrar" />
+</VBox>
