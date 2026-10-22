@@ -3,72 +3,90 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Separator?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane prefHeight="600.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.trabalho.controller.MenuPrincipalController">
+<BorderPane prefHeight="650.0" prefWidth="980.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.trabalho.controller.MenuPrincipalController">
 
     <!-- Cabeçalho (Topo) -->
     <top>
-        <HBox alignment="CENTER_LEFT" style="-fx-background-color: #2c3e50;" BorderPane.alignment="CENTER">
+        <HBox alignment="CENTER_LEFT" prefHeight="60.0" spacing="15.0" style="-fx-background-color: #0f172a;" BorderPane.alignment="CENTER">
             <padding>
-                <Insets bottom="15.0" left="20.0" right="20.0" top="15.0" />
+                <Insets bottom="10.0" left="20.0" right="20.0" top="10.0" />
             </padding>
-            <Label text="SIGPesq - Sistema de Gestão" textFill="WHITE" HBox.hgrow="ALWAYS">
-                <font>
-                    <Font name="System Bold" size="18.0" />
-                </font>
-            </Label>
-            <!-- O HBox vazio empurra os próximos itens para a direita -->
+            <HBox alignment="CENTER_LEFT" spacing="10.0">
+                <Label style="-fx-text-fill: #38bdf8; -fx-font-weight: 900;" text="SIGPesq">
+                    <font>
+                        <Font name="System Bold" size="20.0" />
+                    </font>
+                </Label>
+                <Separator orientation="VERTICAL" style="-fx-opacity: 0.3;" />
+                <Label style="-fx-text-fill: #94a3b8; -fx-font-size: 13px;" text="Sistema de Gestão de Projetos Universitários" />
+            </HBox>
+            
             <HBox HBox.hgrow="ALWAYS" />
+            
             <HBox alignment="CENTER_RIGHT" spacing="15.0">
-                <Label fx:id="lblUsuarioInfo" text="Coordenador: Utilizador" textFill="WHITE" />
-                <Button mnemonicParsing="false" onAction="#fazerLogout" style="-fx-background-color: #e74c3c; -fx-text-fill: white;" text="Sair" />
+                <VBox alignment="CENTER_RIGHT" spacing="2.0">
+                    <Label fx:id="lblUsuarioInfo" style="-fx-text-fill: #ffffff; -fx-font-weight: bold; -fx-font-size: 13px;" text="Utilizador" />
+                    <Label fx:id="lblNivelAcesso" style="-fx-text-fill: #38bdf8; -fx-font-size: 11px; -fx-background-color: #1e293b; -fx-padding: 2px 6px; -fx-background-radius: 4px;" text="Coordenador de Projeto" />
+                </VBox>
+                <Button mnemonicParsing="false" onAction="#fazerLogout" style="-fx-background-color: #ef4444; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 6px; -fx-cursor: hand; -fx-padding: 6px 14px;" text="Sair" />
             </HBox>
         </HBox>
     </top>
 
     <!-- Menu Lateral (Esquerda) -->
     <left>
-        <VBox prefWidth="270.0" spacing="10.0" style="-fx-background-color: #ecf0f1;" BorderPane.alignment="CENTER">
+        <VBox prefWidth="280.0" spacing="8.0" style="-fx-background-color: #1e293b;" BorderPane.alignment="CENTER">
             <padding>
-                <Insets bottom="20.0" left="15.0" right="15.0" top="20.0" />
+                <Insets bottom="20.0" left="14.0" right="14.0" top="20.0" />
             </padding>
-            <Label text="Cadastros" textFill="#7f8c8d">
-                <font>
-                    <Font name="System Bold" size="14.0" />
-                </font>
+            
+            <Label style="-fx-text-fill: #94a3b8; -fx-font-size: 11px; -fx-font-weight: bold;" text="GESTÃO E CADASTROS">
                 <VBox.margin>
-                    <Insets bottom="5.0" />
+                    <Insets bottom="2.0" left="6.0" top="4.0" />
                 </VBox.margin>
             </Label>
             
-            <Button fx:id="btnProjetos" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#abrirTelaProjetos" text="Cadastrar projetos de pesquisa" />
-            <Button fx:id="btnParticipantes" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#abrirTelaParticipantes" text="Cadastrar participantes" />
-            <Button fx:id="btnFinanciamentos" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#abrirTelaFinanciamentos" text="Cadastrar financiamentos" />
-            <Button fx:id="btnProducoes" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#abrirTelaProducoes" text="Cadastrar produções científicas" />
+            <Button fx:id="btnProjetos" alignment="BASELINE_LEFT" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#abrirTelaProjetos" prefHeight="38.0" style="-fx-background-color: #334155; -fx-text-fill: #f1f5f9; -fx-background-radius: 6px; -fx-cursor: hand; -fx-font-size: 13px;" text="  📁  Projetos de Pesquisa" />
+            <Button fx:id="btnParticipantes" alignment="BASELINE_LEFT" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#abrirTelaParticipantes" prefHeight="38.0" style="-fx-background-color: #334155; -fx-text-fill: #f1f5f9; -fx-background-radius: 6px; -fx-cursor: hand; -fx-font-size: 13px;" text="  👥  Participantes &amp; Vínculos" />
+            <Button fx:id="btnFinanciamentos" alignment="BASELINE_LEFT" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#abrirTelaFinanciamentos" prefHeight="38.0" style="-fx-background-color: #334155; -fx-text-fill: #f1f5f9; -fx-background-radius: 6px; -fx-cursor: hand; -fx-font-size: 13px;" text="  💰  Financiamentos" />
+            <Button fx:id="btnProducoes" alignment="BASELINE_LEFT" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#abrirTelaProducoes" prefHeight="38.0" style="-fx-background-color: #334155; -fx-text-fill: #f1f5f9; -fx-background-radius: 6px; -fx-cursor: hand; -fx-font-size: 13px;" text="  📄  Produções Científicas" />
             
-            <Label text="Relatórios" textFill="#7f8c8d">
-                <font>
-                    <Font name="System Bold" size="14.0" />
-                </font>
+            <Separator style="-fx-opacity: 0.15;">
                 <VBox.margin>
-                    <Insets bottom="5.0" top="15.0" />
+                    <Insets bottom="6.0" top="12.0" />
+                </VBox.margin>
+            </Separator>
+
+            <Label style="-fx-text-fill: #94a3b8; -fx-font-size: 11px; -fx-font-weight: bold;" text="CONSULTAS &amp; RELATÓRIOS">
+                <VBox.margin>
+                    <Insets bottom="2.0" left="6.0" />
                 </VBox.margin>
             </Label>
-            <Button fx:id="btnConsultas" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#abrirTelaConsultas" text="Consultas e Listagens" />
+            
+            <Button fx:id="btnConsultas" alignment="BASELINE_LEFT" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#abrirTelaConsultas" prefHeight="42.0" style="-fx-background-color: #0284c7; -fx-text-fill: #ffffff; -fx-font-weight: bold; -fx-background-radius: 6px; -fx-cursor: hand; -fx-font-size: 13px;" text="  🔍  Consultas e Relatórios" />
+
+            <VBox VBox.vgrow="ALWAYS" />
+
+            <VBox alignment="CENTER" style="-fx-background-color: #0f172a; -fx-padding: 8px; -fx-background-radius: 6px;">
+                <Label style="-fx-text-fill: #64748b; -fx-font-size: 10px;" text="Banco de Dados I - UFES" />
+                <Label style="-fx-text-fill: #475569; -fx-font-size: 10px;" text="SIGPesq - Interface" />
+            </VBox>
         </VBox>
     </left>
 
     <!-- Área Central Dinâmica (Centro) -->
     <center>
         <StackPane fx:id="painelCentral" style="-fx-background-color: #ffffff;" BorderPane.alignment="CENTER">
-            <Label text="Selecione uma opção no menu lateral" textFill="#bdc3c7">
+            <Label style="-fx-text-fill: #94a3b8;" text="Selecione uma opção no menu lateral">
                 <font>
-                    <Font size="18.0" />
+                    <Font size="16.0" />
                 </font>
             </Label>
         </StackPane>

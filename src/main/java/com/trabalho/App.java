@@ -7,6 +7,7 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.net.URL;
 
 public class App extends Application {
 
@@ -17,43 +18,50 @@ public class App extends Application {
     public void start(Stage stage) throws IOException {
         primaryStage = stage;
 
-        // Carrega o arquivo Login.fxml e define o tamanho da janela (400x450)
-        scene = new Scene(loadFXML("Login"), 400, 450);
+        scene = new Scene(loadFXML("Login"), 420, 500);
         
-        // Configurações da janela
         stage.setTitle("SIGPesq - Acesso ao Sistema");
         stage.setScene(scene);
-        stage.setResizable(false); // Impede que o usuário redimensione a tela de login
+        stage.setResizable(false);
         stage.show();
     }
 
-    // Método para trocar de tela, ajustando o tamanho da janela
     public static void setRoot(String fxml) throws IOException {
         scene.setRoot(loadFXML(fxml));
 
-        // Ajusta o tamanho da janela conforme a tela carregada
-        if (fxml.equals("menuPrincipal")) {
+        if (fxml.equalsIgnoreCase("MenuPrincipal")) {
             primaryStage.setResizable(true);
-            primaryStage.setWidth(900);
-            primaryStage.setHeight(600);
+            primaryStage.setWidth(980);
+            primaryStage.setHeight(650);
             primaryStage.centerOnScreen();
-            primaryStage.setTitle("SIGPesq - Menu Principal");
-        } else if (fxml.equals("Login")) {
+            primaryStage.setTitle("SIGPesq - Sistema de Gerenciamento de Projetos");
+        } else if (fxml.equalsIgnoreCase("Login")) {
             primaryStage.setResizable(false);
-            primaryStage.setWidth(400);
-            primaryStage.setHeight(450);
+            primaryStage.setWidth(420);
+            primaryStage.setHeight(500);
             primaryStage.centerOnScreen();
             primaryStage.setTitle("SIGPesq - Acesso ao Sistema");
         }
     }
 
-    // Método auxiliar que busca o arquivo FXML na pasta resources
-    private static Parent loadFXML(String fxml) throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource(fxml + ".fxml"));
+    public static Parent loadFXML(String fxml) throws IOException {
+        URL resource = App.class.getResource(fxml + ".fxml");
+        if (resource == null) {
+            String alternativo = Character.toLowerCase(fxml.charAt(0)) + fxml.substring(1);
+            resource = App.class.getResource(alternativo + ".fxml");
+        }
+        if (resource == null) {
+            String alternativo = Character.toUpperCase(fxml.charAt(0)) + fxml.substring(1);
+            resource = App.class.getResource(alternativo + ".fxml");
+        }
+        if (resource == null) {
+            throw new IOException("Arquivo FXML não encontrado: " + fxml + ".fxml");
+        }
+        FXMLLoader fxmlLoader = new FXMLLoader(resource);
         return fxmlLoader.load();
     }
 
     public static void main(String[] args) {
-        launch(); // Comando nativo do JavaFX para iniciar a interface
+        launch();
     }
 }

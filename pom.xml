@@ -9,7 +9,6 @@
   <name>interface-db</name>
   <url>http://maven.apache.org</url>
 
-  <!-- Definindo a versão do Java e do JavaFX -->
   <properties>
     <maven.compiler.source>17</maven.compiler.source>
     <maven.compiler.target>17</maven.compiler.target>
@@ -17,7 +16,6 @@
   </properties>
 
   <dependencies>
-    <!-- Dependência de Testes -->
     <dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
@@ -25,21 +23,18 @@
       <scope>test</scope>
     </dependency>
 
-    <!-- Componentes visuais do JavaFX -->
     <dependency>
         <groupId>org.openjfx</groupId>
         <artifactId>javafx-controls</artifactId>
         <version>${javafx.version}</version>
     </dependency>
     
-    <!-- Suporte para arquivos FXML (Scene Builder) -->
     <dependency>
         <groupId>org.openjfx</groupId>
         <artifactId>javafx-fxml</artifactId>
         <version>${javafx.version}</version>
     </dependency>
 
-    <!-- Driver JDBC do MySQL para o banco de dados -->
     <dependency>
         <groupId>com.mysql</groupId>
         <artifactId>mysql-connector-j</artifactId>
@@ -49,13 +44,11 @@
 
   <build>
     <plugins>
-        <!-- Plugin que permite rodar o projeto usando 'mvn javafx:run' -->
         <plugin>
             <groupId>org.openjfx</groupId>
             <artifactId>javafx-maven-plugin</artifactId>
             <version>0.0.8</version>
             <configuration>
-                <!-- O caminho para a sua classe Main -->
                 <mainClass>com.trabalho.App</mainClass>
             </configuration>
         </plugin>
