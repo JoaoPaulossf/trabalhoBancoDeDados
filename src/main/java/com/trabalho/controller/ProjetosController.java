@@ -5,7 +5,6 @@ import com.trabalho.model.Projeto;
 import com.trabalho.model.Usuario;
 import com.trabalho.service.DadosService;
 import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -135,10 +134,13 @@ public class ProjetosController {
                 cbSituacao.getValue() != null ? cbSituacao.getValue() : "Em andamento"
         );
 
-        novo.cadastrarProjeto();
+        if (!novo.cadastrarProjeto()) {
+            exibirMensagem(Alert.AlertType.ERROR, "Erro", "Não foi possível salvar o projeto no banco de dados.");
+            return;
+        }
         tabelaProjetos.refresh();
         limpar();
-        exibirMensagem(Alert.AlertType.INFORMATION, "Sucesso", "Projeto cadastrado com sucesso! Código gerado: #" + novoId);
+        exibirMensagem(Alert.AlertType.INFORMATION, "Sucesso", "Projeto cadastrado com sucesso! Código gerado: #" + novo.getIdProjeto());
     }
 
     @FXML
@@ -159,6 +161,11 @@ public class ProjetosController {
                 cbSituacao.getValue(),
                 coord.getCpf()
         );
+
+            if (!DadosService.getInstance().salvarProjeto(projetoSelecionado)) {
+                exibirMensagem(Alert.AlertType.ERROR, "Erro", "Não foi possível atualizar o projeto no banco de dados.");
+                return;
+            }
 
         tabelaProjetos.refresh();
         limpar();
@@ -184,6 +191,10 @@ public class ProjetosController {
         if (resposta.isPresent() && resposta.get() == ButtonType.OK) {
             LocalDate dataFim = dpDataTermino.getValue() != null ? dpDataTermino.getValue() : LocalDate.now();
             projetoSelecionado.encerrarProjeto("Concluído", dataFim);
+            if (!DadosService.getInstance().salvarProjeto(projetoSelecionado)) {
+                exibirMensagem(Alert.AlertType.ERROR, "Erro", "Não foi possível encerrar o projeto no banco de dados.");
+                return;
+            }
             tabelaProjetos.refresh();
             limpar();
             exibirMensagem(Alert.AlertType.INFORMATION, "Projeto Encerrado", "Situação alterada para Concluído com data de término registrada.");

@@ -1,21 +1,16 @@
-CREATE DATABASE IF NOT EXISTS sigpesq
-    CHARACTER SET utf8mb4
-    COLLATE utf8mb4_unicode_ci;
-
+CREATE DATABASE IF NOT EXISTS sigpesq;
 USE sigpesq;
 
--- A senha deve ser armazenada como hash, nunca em texto puro.
 CREATE TABLE IF NOT EXISTS usuario (
     cpf CHAR(11) NOT NULL,
     nome VARCHAR(150) NOT NULL,
     email_institucional VARCHAR(254) NOT NULL,
     nivel_acesso ENUM('Coordenador de Projeto', 'Gestor Administrativo') NOT NULL,
-    senha_hash VARCHAR(255) NOT NULL,
+    senha VARCHAR(255) NOT NULL,
     PRIMARY KEY (cpf),
     UNIQUE KEY uk_usuario_email (email_institucional)
 ) ENGINE = InnoDB;
 
--- Subtipo de usuário que pode coordenar projetos.
 CREATE TABLE IF NOT EXISTS coordenador (
     cpf CHAR(11) NOT NULL,
     PRIMARY KEY (cpf),
@@ -50,7 +45,6 @@ CREATE TABLE IF NOT EXISTS projeto (
         CHECK (data_termino IS NULL OR data_termino >= data_inicio)
 ) ENGINE = InnoDB;
 
--- Relação N:N entre projeto e participante; o par forma a chave primária.
 CREATE TABLE IF NOT EXISTS historico_proj (
     id_projeto INT NOT NULL,
     cpf_colaborador CHAR(11) NOT NULL,
@@ -69,7 +63,6 @@ CREATE TABLE IF NOT EXISTS historico_proj (
         CHECK (data_fim IS NULL OR data_fim >= data_inicio)
 ) ENGINE = InnoDB;
 
--- O ID do projeto como PK garante no máximo um financiamento por projeto.
 CREATE TABLE IF NOT EXISTS financiamento (
     id_projeto INT NOT NULL,
     agencia VARCHAR(120) NOT NULL,
@@ -100,7 +93,6 @@ CREATE TABLE IF NOT EXISTS producao (
         ON UPDATE CASCADE ON DELETE RESTRICT
 ) ENGINE = InnoDB;
 
--- Relação N:N entre produção científica e participante autor.
 CREATE TABLE IF NOT EXISTS autoria (
     id_producao INT NOT NULL,
     cpf_particip CHAR(11) NOT NULL,

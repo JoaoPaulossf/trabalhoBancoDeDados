@@ -1,9 +1,11 @@
 package com.trabalho;
 
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -17,6 +19,13 @@ public class App extends Application {
     @Override
     public void start(Stage stage) throws IOException {
         primaryStage = stage;
+        Thread.currentThread().setUncaughtExceptionHandler((thread, error) -> Platform.runLater(() -> {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Erro na aplicação");
+            alert.setHeaderText("A operação não pôde ser concluída");
+            alert.setContentText(error.getMessage() == null ? "Ocorreu um erro inesperado." : error.getMessage());
+            alert.showAndWait();
+        }));
 
         scene = new Scene(loadFXML("Login"), 420, 500);
         

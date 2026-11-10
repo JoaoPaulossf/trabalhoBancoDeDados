@@ -181,18 +181,21 @@ public class ProducoesController {
                 txtMeioDivulgacao.getText().trim()
         );
 
-        nova.cadastrarProducao();
+        if (!nova.cadastrarProducao()) {
+            exibirMensagem(Alert.AlertType.ERROR, "Erro", "Não foi possível salvar a produção no banco de dados.");
+            return;
+        }
 
         // Salva vinculo de autoria (Autoria - Secao 9.8)
         List<String> cpfs = new ArrayList<>();
         for (Participante p : listaAutoresSelecionados) {
             cpfs.add(p.getCpfColaborador());
         }
-        DadosService.getInstance().substituirAutoresDaProducao(novoId, cpfs);
+        DadosService.getInstance().substituirAutoresDaProducao(nova.getIdProducao(), cpfs);
 
         tabelaProducoes.refresh();
         limpar();
-        exibirMensagem(Alert.AlertType.INFORMATION, "Sucesso", "Produção científica cadastrada com sucesso (UC05)! ID #" + novoId);
+        exibirMensagem(Alert.AlertType.INFORMATION, "Sucesso", "Produção científica cadastrada com sucesso (UC05)! ID #" + nova.getIdProducao());
     }
 
     @FXML
@@ -212,6 +215,11 @@ public class ProducoesController {
                 txtAnoPublicacao.getText().trim(),
                 txtMeioDivulgacao.getText().trim()
         );
+
+            if (!DadosService.getInstance().salvarProducao(producaoSelecionada)) {
+                exibirMensagem(Alert.AlertType.ERROR, "Erro", "Não foi possível atualizar a produção no banco de dados.");
+                return;
+            }
 
         // Atualiza autores vinculados (Autoria)
         List<String> cpfs = new ArrayList<>();
@@ -239,8 +247,10 @@ public class ProducoesController {
 
         Optional<ButtonType> resposta = confirmacao.showAndWait();
         if (resposta.isPresent() && resposta.get() == ButtonType.OK) {
-            DadosService.getInstance().substituirAutoresDaProducao(producaoSelecionada.getIdProducao(), null);
-            DadosService.getInstance().getProducoes().remove(producaoSelecionada);
+            if (!DadosService.getInstance().deletarProducao(producaoSelecionada.getIdProducao())) {
+                exibirMensagem(Alert.AlertType.ERROR, "Erro", "Não foi possível excluir a produção do banco de dados.");
+                return;
+            }
             tabelaProducoes.refresh();
             limpar();
             exibirMensagem(Alert.AlertType.INFORMATION, "Sucesso", "Produção removida com sucesso!");

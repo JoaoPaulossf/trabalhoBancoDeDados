@@ -9,19 +9,16 @@ public class ConexaoBanco {
     private static final String USUARIO = "root";
     private static final String SENHA = "1234";
 
-   public static Connection conectar() {
-        Connection conexao = null;
-        try {
-            conexao = DriverManager.getConnection(URL, USUARIO, SENHA);
-            System.out.println("Conexão com o banco de dados realizada com sucesso!");
-        } catch (SQLException e) {
-            System.err.println("Erro ao conectar ao banco de dados: " + e.getMessage());
-        }
-        return conexao;
+    public static Connection conectar() throws SQLException {
+        return DriverManager.getConnection(URL, USUARIO, SENHA);
     }
     
     public static void main(String[] args) {
         // Testa a conexão ao executar esta classe
-        conectar();
+        try (Connection conexao = conectar()) {
+            System.out.println("Conexão com o banco de dados realizada com sucesso!");
+        } catch (SQLException e) {
+            System.err.println("Erro ao conectar ao banco de dados: " + e.getMessage());
+        }
     }
 }
