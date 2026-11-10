@@ -27,6 +27,23 @@ public class LoginController {
     }
 
     @FXML
+    public void preencherCoordenador() {
+        preencherPerfilDemo("carlos.eduardo@ufes.br");
+    }
+
+    @FXML
+    public void preencherGestor() {
+        preencherPerfilDemo("gestor@ufes.br");
+    }
+
+    private void preencherPerfilDemo(String email) {
+        txtEmail.setText(email);
+        txtSenha.clear();
+        lblMensagemErro.setText("");
+        txtSenha.requestFocus();
+    }
+
+    @FXML
     public void fazerLogin() {
         String email = txtEmail.getText().trim();
         String senha = txtSenha.getText().trim();

@@ -105,3 +105,7 @@ CREATE TABLE IF NOT EXISTS autoria (
         FOREIGN KEY (cpf_particip) REFERENCES participante (cpf_colaborador)
         ON UPDATE CASCADE ON DELETE RESTRICT
 ) ENGINE = InnoDB;
+
+INSERT INTO usuario (cpf, nome, email_institucional, nivel_acesso, senha)  VALUES
+    ('12345678901', 'Carlos Eduardo Moronari', 'carlos.eduardo@ufes.br', 'Coordenador de Projeto', '123456'),
+    ('10987654321', 'Gestor Administrativo', 'gestor@ufes.br', 'Gestor Administrativo', '123456');
