@@ -5,7 +5,6 @@ import com.trabalho.model.Projeto;
 import com.trabalho.model.Usuario;
 import com.trabalho.service.DadosService;
 import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -161,7 +160,10 @@ public class FinanciamentosController {
         // Se inativo, nao exige dados financeiros (UC04 Fluxo Alternativo 2a)
         if ("Inativo".equalsIgnoreCase(situacao)) {
             Financiamento inativo = new Financiamento(proj.getIdProjeto(), "Nenhum", "Sem fomento", "0,00", LocalDate.now(), LocalDate.now(), "Inativo");
-            inativo.cadastrarFinanciamento();
+            if (!inativo.cadastrarFinanciamento()) {
+                exibirMensagem(Alert.AlertType.ERROR, "Erro", "Não foi possível registrar o financiamento no banco de dados.");
+                return;
+            }
             tabelaFinanciamentos.refresh();
             limpar();
             exibirMensagem(Alert.AlertType.INFORMATION, "Sucesso", "Projeto registrado como sem financiamento (Inativo).");
@@ -181,7 +183,10 @@ public class FinanciamentosController {
                 "Ativo"
         );
 
-        novo.cadastrarFinanciamento();
+        if (!novo.cadastrarFinanciamento()) {
+            exibirMensagem(Alert.AlertType.ERROR, "Erro", "Não foi possível salvar o financiamento no banco de dados.");
+            return;
+        }
         tabelaFinanciamentos.refresh();
         limpar();
         exibirMensagem(Alert.AlertType.INFORMATION, "Sucesso", "Financiamento cadastrado com sucesso (UC04)!");
@@ -210,6 +215,11 @@ public class FinanciamentosController {
                 cbSituacao.getValue()
         );
 
+            if (!DadosService.getInstance().salvarFinanciamento(financiamentoSelecionado)) {
+                exibirMensagem(Alert.AlertType.ERROR, "Erro", "Não foi possível atualizar o financiamento no banco de dados.");
+                return;
+            }
+
         tabelaFinanciamentos.refresh();
         limpar();
         exibirMensagem(Alert.AlertType.INFORMATION, "Sucesso", "Dados do financiamento atualizados!");
@@ -234,6 +244,10 @@ public class FinanciamentosController {
         Optional<ButtonType> resposta = confirmacao.showAndWait();
         if (resposta.isPresent() && resposta.get() == ButtonType.OK) {
             financiamentoSelecionado.inativarFinanciamento();
+            if (!DadosService.getInstance().salvarFinanciamento(financiamentoSelecionado)) {
+                exibirMensagem(Alert.AlertType.ERROR, "Erro", "Não foi possível inativar o financiamento no banco de dados.");
+                return;
+            }
             tabelaFinanciamentos.refresh();
             limpar();
             exibirMensagem(Alert.AlertType.INFORMATION, "Sucesso", "Financiamento inativado no sistema mantendo o registro (RN-09)!");

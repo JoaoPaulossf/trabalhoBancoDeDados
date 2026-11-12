@@ -6,7 +6,6 @@ import com.trabalho.model.Projeto;
 import com.trabalho.model.Usuario;
 import com.trabalho.service.DadosService;
 import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -184,9 +183,16 @@ public class ParticipantesController {
         Participante part = DadosService.getInstance().buscarParticipantePorCpf(cpfLimpo);
         if (part == null) {
             part = new Participante(cpfLimpo, txtNome.getText().trim(), txtEmail.getText().trim(), cbTipo.getValue());
-            part.cadastrarParticipante();
+            if (!part.cadastrarParticipante()) {
+                exibirMensagem(Alert.AlertType.ERROR, "Erro", "Não foi possível cadastrar o participante.");
+                return;
+            }
         } else {
             part.atualizarDadosParticipante(txtNome.getText().trim(), txtEmail.getText().trim(), cbTipo.getValue());
+            if (!DadosService.getInstance().salvarParticipante(part)) {
+                exibirMensagem(Alert.AlertType.ERROR, "Erro", "Não foi possível atualizar o participante.");
+                return;
+            }
         }
 
         // 2. Cria o vinculo (Historico_Proj)
@@ -198,7 +204,10 @@ public class ParticipantesController {
                 dpDataFim.getValue()
         );
 
-        vinculo.vincularParticipante();
+        if (!vinculo.vincularParticipante()) {
+            exibirMensagem(Alert.AlertType.ERROR, "Erro", "Não foi possível salvar o vínculo no banco de dados.");
+            return;
+        }
         tabelaVinculos.refresh();
         limpar();
         exibirMensagem(Alert.AlertType.INFORMATION, "Sucesso", "Participante vinculado com sucesso ao projeto (UC03)!");
@@ -228,6 +237,15 @@ public class ParticipantesController {
         Participante part = DadosService.getInstance().buscarParticipantePorCpf(vinculoSelecionado.getCpfColaborador());
         if (part != null) {
             part.atualizarDadosParticipante(txtNome.getText().trim(), txtEmail.getText().trim(), cbTipo.getValue());
+            if (!DadosService.getInstance().salvarParticipante(part)) {
+                exibirMensagem(Alert.AlertType.ERROR, "Erro", "Não foi possível atualizar os dados do participante.");
+                return;
+            }
+        }
+
+        if (!DadosService.getInstance().salvarVinculo(vinculoSelecionado)) {
+            exibirMensagem(Alert.AlertType.ERROR, "Erro", "Não foi possível atualizar o vínculo no banco de dados.");
+            return;
         }
 
         tabelaVinculos.refresh();
@@ -255,6 +273,10 @@ public class ParticipantesController {
         Optional<ButtonType> resp = confirmacao.showAndWait();
         if (resp.isPresent() && resp.get() == ButtonType.OK) {
             vinculoSelecionado.encerrarVinculo(LocalDate.now());
+            if (!DadosService.getInstance().salvarVinculo(vinculoSelecionado)) {
+                exibirMensagem(Alert.AlertType.ERROR, "Erro", "Não foi possível encerrar o vínculo no banco de dados.");
+                return;
+            }
             tabelaVinculos.refresh();
             limpar();
             exibirMensagem(Alert.AlertType.INFORMATION, "Vínculo Encerrado", "Participação encerrada com sucesso mantendo o histórico (RN-09).");

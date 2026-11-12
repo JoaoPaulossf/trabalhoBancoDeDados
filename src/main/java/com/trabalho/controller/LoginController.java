@@ -3,13 +3,11 @@ package com.trabalho.controller;
 import com.trabalho.App;
 import com.trabalho.model.Usuario;
 import com.trabalho.service.DadosService;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 
-import java.io.IOException;
 
 /**
  * Controlador de Autenticacao de Usuario (UC01 / RNF-02).
@@ -22,27 +20,31 @@ public class LoginController {
 
     @FXML
     public void initialize() {
-        // Sugestao inicial para facilitar demonstracao
-        txtEmail.setText("carlos.eduardo@ufes.br");
-        txtSenha.setText("123456");
+        String erroBanco = DadosService.getInstance().getErroInicializacao();
+        if (erroBanco != null) {
+            lblMensagemErro.setText("Banco indisponível. Verifique MySQL/configuração: " + erroBanco);
+        }
     }
 
     @FXML
-    public void preencherCoordenador(ActionEvent event) {
-        txtEmail.setText("carlos.eduardo@ufes.br");
-        txtSenha.setText("123456");
+    public void preencherCoordenador() {
+        preencherPerfilDemo("carlos.eduardo@ufes.br");
+    }
+
+    @FXML
+    public void preencherGestor() {
+        preencherPerfilDemo("gestor@ufes.br");
+    }
+
+    private void preencherPerfilDemo(String email) {
+        txtEmail.setText(email);
+        txtSenha.clear();
         lblMensagemErro.setText("");
+        txtSenha.requestFocus();
     }
 
     @FXML
-    public void preencherGestor(ActionEvent event) {
-        txtEmail.setText("gestor@ufes.br");
-        txtSenha.setText("123456");
-        lblMensagemErro.setText("");
-    }
-
-    @FXML
-    public void fazerLogin(ActionEvent event) {
+    public void fazerLogin() {
         String email = txtEmail.getText().trim();
         String senha = txtSenha.getText().trim();
 
@@ -52,7 +54,13 @@ public class LoginController {
         }
 
         // UC01 - 3. Valida credenciais e identifica perfil
-        Usuario usuario = DadosService.getInstance().autenticar(email, senha);
+        Usuario usuario;
+        try {
+            usuario = DadosService.getInstance().autenticar(email, senha);
+        } catch (IllegalStateException e) {
+            lblMensagemErro.setText(e.getMessage());
+            return;
+        }
 
         if (usuario == null) {
             // UC01 - 3a. Credenciais invalidas
