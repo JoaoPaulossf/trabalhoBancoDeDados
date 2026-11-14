@@ -12,6 +12,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
 
 import java.io.IOException;
 import java.net.URL;
@@ -24,6 +25,7 @@ public class MenuPrincipalController {
 
     @FXML private Label lblUsuarioInfo;
     @FXML private Label lblNivelAcesso;
+    @FXML private VBox boxGestaoCadastros;
     @FXML private Button btnProjetos;
     @FXML private Button btnParticipantes;
     @FXML private Button btnFinanciamentos;
@@ -47,15 +49,20 @@ public class MenuPrincipalController {
 
                 // RNF-02: Controle de acesso por perfil
                 if (usuario.isGestorAdministrativo()) {
-                    if (btnProjetos != null) btnProjetos.setStyle("-fx-opacity: 0.85;");
-                    if (btnParticipantes != null) btnParticipantes.setStyle("-fx-opacity: 0.85;");
-                    if (btnFinanciamentos != null) btnFinanciamentos.setStyle("-fx-opacity: 0.85;");
-                    if (btnProducoes != null) btnProducoes.setStyle("-fx-opacity: 0.85;");
+                    // O gestor so ve e so acessa a janela de consultas
+                    if (boxGestaoCadastros != null) {
+                        boxGestaoCadastros.setVisible(false);
+                        boxGestaoCadastros.setManaged(false);
+                    }
                     
-                    // Gestor Administrativo inicia na tela de Consultas
+                    // Gestor Administrativo inicia obrigatoriamente na tela de Consultas
                     Platform.runLater(() -> abrirTelaConsultas(null));
                 } else {
-                    // Coordenador de Projeto: abre Projetos por padrao
+                    // Coordenador de Projeto: tem acesso aos cadastros e abre Projetos por padrao
+                    if (boxGestaoCadastros != null) {
+                        boxGestaoCadastros.setVisible(true);
+                        boxGestaoCadastros.setManaged(true);
+                    }
                     Platform.runLater(() -> abrirTelaProjetos(null));
                 }
             } else {
@@ -72,6 +79,12 @@ public class MenuPrincipalController {
     private void carregarFormulario(String nomeArquivoFxml) {
         if (painelCentral == null) {
             System.err.println("painelCentral é nulo! Verifique o fx:id no FXML.");
+            return;
+        }
+
+        Usuario usuario = DadosService.getInstance().getUsuarioLogado();
+        if (usuario != null && usuario.isGestorAdministrativo() && !nomeArquivoFxml.equalsIgnoreCase("Consultas")) {
+            System.err.println("Acesso bloqueado: Gestor Administrativo só possui acesso à janela de Consultas.");
             return;
         }
 
@@ -111,27 +124,44 @@ public class MenuPrincipalController {
 
     @FXML
     public void abrirTelaProjetos(ActionEvent event) {
+        if (!validarAcessoCadastro()) return;
         carregarFormulario("Projetos");
     }
 
     @FXML
     public void abrirTelaParticipantes(ActionEvent event) {
+        if (!validarAcessoCadastro()) return;
         carregarFormulario("Participantes");
     }
 
     @FXML
     public void abrirTelaFinanciamentos(ActionEvent event) {
+        if (!validarAcessoCadastro()) return;
         carregarFormulario("Financiamentos");
     }
 
     @FXML
     public void abrirTelaProducoes(ActionEvent event) {
+        if (!validarAcessoCadastro()) return;
         carregarFormulario("Producoes");
     }
 
     @FXML
     public void abrirTelaConsultas(ActionEvent event) {
         carregarFormulario("Consultas");
+    }
+
+    private boolean validarAcessoCadastro() {
+        Usuario usuario = DadosService.getInstance().getUsuarioLogado();
+        if (usuario != null && usuario.isGestorAdministrativo()) {
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("Acesso Restrito");
+            alert.setHeaderText("Acesso Não Permitido");
+            alert.setContentText("O perfil Gestor Administrativo possui permissão apenas para visualização de consultas e relatórios.");
+            alert.showAndWait();
+            return false;
+        }
+        return true;
     }
 
     @FXML

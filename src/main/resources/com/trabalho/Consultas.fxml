@@ -19,7 +19,7 @@
             <Insets bottom="20.0" left="22.0" right="22.0" top="18.0" />
         </padding>
 
-        <!-- Header -->
+        <!-- Cabeçalho -->
         <VBox spacing="3.0">
             <Label style="-fx-text-fill: #0f172a;" text="Consultas e Relatórios do Sistema">
                 <font>
@@ -29,11 +29,10 @@
             <Label style="-fx-text-fill: #64748b; -fx-font-size: 12px;" text="Pesquise projetos por docente, lista de participantes por projeto, produções com autores e contratos de financiamento." />
         </VBox>
 
-        <!-- TabPane com as 4 Consultas de Saida Especificadas no Documento -->
         <TabPane fx:id="tabPaneConsultas" minHeight="450.0" prefHeight="480.0" style="-fx-background-color: #ffffff; -fx-border-color: #e2e8f0; -fx-border-radius: 6px;" tabClosingPolicy="UNAVAILABLE" VBox.vgrow="ALWAYS">
             
             <!-- ABA 1: Projetos vinculados a um determinado docente -->
-            <Tab text="  📁  Projetos por Docente  ">
+            <Tab text=" Projetos por Docente  ">
                 <VBox spacing="12.0">
                     <padding>
                         <Insets bottom="14.0" left="14.0" right="14.0" top="14.0" />
@@ -63,7 +62,7 @@
             </Tab>
 
             <!-- ABA 2: Lista de participantes de um projeto especifico -->
-            <Tab text="  👥  Participantes por Projeto  ">
+            <Tab text=" Participantes por Projeto  ">
                 <VBox spacing="12.0">
                     <padding>
                         <Insets bottom="14.0" left="14.0" right="14.0" top="14.0" />
@@ -94,7 +93,7 @@
             </Tab>
 
             <!-- ABA 3: Producoes cientificas vinculadas a um projeto -->
-            <Tab text="  📄  Produções Científicas por Projeto  ">
+            <Tab text=" Produções Científicas por Projeto  ">
                 <VBox spacing="12.0">
                     <padding>
                         <Insets bottom="14.0" left="14.0" right="14.0" top="14.0" />
@@ -123,7 +122,7 @@
             </Tab>
 
             <!-- ABA 4: Informacoes sobre os financiamentos cadastrados -->
-            <Tab text="  💰  Financiamentos por Projeto  ">
+            <Tab text=" Financiamentos por Projeto  ">
                 <VBox spacing="12.0">
                     <padding>
                         <Insets bottom="14.0" left="14.0" right="14.0" top="14.0" />

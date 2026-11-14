@@ -1,4 +1,2 @@
 # trabalhoBancoDeDados
-# trabalhoBancoDeDados
-# trabalhoBancoDeDados
-# trabalhoBancoDeDados
+

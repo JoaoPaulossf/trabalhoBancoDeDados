@@ -27,7 +27,7 @@ public class App extends Application {
             alert.showAndWait();
         }));
 
-        scene = new Scene(loadFXML("Login"), 420, 500);
+        scene = new Scene(carregaFXML("Login"), 420, 500);
         
         stage.setTitle("SIGPesq - Acesso ao Sistema");
         stage.setScene(scene);
@@ -36,7 +36,7 @@ public class App extends Application {
     }
 
     public static void setRoot(String fxml) throws IOException {
-        scene.setRoot(loadFXML(fxml));
+        scene.setRoot(carregaFXML(fxml));
 
         if (fxml.equalsIgnoreCase("MenuPrincipal")) {
             primaryStage.setResizable(true);
@@ -53,7 +53,7 @@ public class App extends Application {
         }
     }
 
-    public static Parent loadFXML(String fxml) throws IOException {
+    public static Parent carregaFXML(String fxml) throws IOException {
         URL resource = App.class.getResource(fxml + ".fxml");
         if (resource == null) {
             String alternativo = Character.toLowerCase(fxml.charAt(0)) + fxml.substring(1);
